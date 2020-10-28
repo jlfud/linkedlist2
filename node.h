@@ -17,7 +17,7 @@ public:
   void setStudent(student*);
 private:
   student* stud;
-  node* linkNode; 
+  node* linkNode = NULL; 
 };
 
 #endif
