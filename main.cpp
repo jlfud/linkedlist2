@@ -7,7 +7,7 @@ using namespace std;
 void ADD(node* head, student* student); //make new studnet within add function
 void PRINT(node* head);
 void DELETE(int id, node* head);
-float AVERAGE(node* head); 
+float AVERAGE(node* head, float total, int count); 
 
 int main(){
   node* head = new node(NULL, NULL);
@@ -42,23 +42,26 @@ int main(){
       return 0;
     }
     else if(strcmp(input, "average")==0){
-      cout << AVERAGE(head) << endl;
+      cout << AVERAGE(head, 0, 0) << endl;
     }
     else{
       cout << "invalid input! Try again!" << endl;
     }
   }
 }
-void ADD(node* head, student* student){
+void ADD(node* head, student* student){ //head represents current node
   if(head->getStudent() == NULL){
     head->setStudent(student);
   }
   else if(head->getStudent()->id >= student->id){
-    node* placeholder = new node(student, head);
+    node* placeholder = new node(head->getStudent(), head->getNext());
+    head->setNext(placeholder);
+    head->setStudent(student);
   }
-  else if(head->getNext ==NULL){
+  else if(head->getNext() == NULL){
     node* placeholder = new node(student, NULL);
     head->setNext(placeholder);
+
   }
   else{
     ADD(head->getNext(), student); 
@@ -66,12 +69,25 @@ void ADD(node* head, student* student){
   
 }
 void PRINT(node* head){
-
+  if(head != NULL){
+    cout << head->getStudent()->id << " " << head->getStudent()->name << head->getStudent()->gpa << endl;
+    PRINT(head->getNext());
+  }
 }
 void DELETE(int id, node* head){
 
 }
-float AVERAGE(node* head){
-  return 69;
+float AVERAGE(node* head, float total, int count){ 
+  if(head != NULL){
+    if(head->getStudent()==NULL){
+      return (total/count);
+    }
+    total += head->getStudent()->gpa;
+    count++;
+    AVERAGE(head->getNext(), total, count); 
+  }
+  else{
+    return (total/count); 
+  }
 }
 
