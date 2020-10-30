@@ -70,12 +70,44 @@ void ADD(node* head, student* student){ //head represents current node
 }
 void PRINT(node* head){
   if(head != NULL){
-    cout << head->getStudent()->id << " " << head->getStudent()->name << head->getStudent()->gpa << endl;
-    PRINT(head->getNext());
+    if(head->getStudent() != NULL){
+      cout << head->getStudent()->id << " " << head->getStudent()->name << " " << head->getStudent()->gpa << endl;
+      PRINT(head->getNext());
+    }
   }
 }
 void DELETE(int id, node* head){
-
+  char input[10];
+  if(head->getNext() == NULL){
+    if(head->getStudent() != NULL){
+      if(head->getStudent()->id == id){
+	cout << "would you like to delete " << head->getStudent()->name << "?" << endl;
+	cin >> input;
+	if(strcmp(input, "yes")==0){
+	  cout << "student deleted." << endl;
+	  delete head->getStudent();
+	}
+      }
+    }
+    else{
+      cout << "id not found" << endl;
+    }
+  }
+  else{
+    if(head->getNext()->getStudent()->id == id){
+      cout << "would you like to delete " << head->getNext()->getStudent()->name << "?" << endl;
+      cin >> input;
+      if(strcmp(input, "yes")==0){
+	cout << "student deleted." << endl;
+	node* placeHolder = head->getNext()->getNext();
+	head->getNext()->~node();
+	head->setNext(placeHolder);
+      }
+    }
+    else{
+      DELETE(id, head->getNext());
+    }
+  }
 }
 float AVERAGE(node* head, float total, int count){ 
   if(head != NULL){
@@ -84,7 +116,7 @@ float AVERAGE(node* head, float total, int count){
     }
     total += head->getStudent()->gpa;
     count++;
-    AVERAGE(head->getNext(), total, count); 
+    return AVERAGE(head->getNext(), total, count); 
   }
   else{
     return (total/count); 
