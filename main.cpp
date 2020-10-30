@@ -86,7 +86,11 @@ void DELETE(int id, node* head){
 	if(strcmp(input, "yes")==0){
 	  cout << "student deleted." << endl;
 	  delete head->getStudent();
+	  head->setStudent(NULL); 
 	}
+      }
+      else{
+	cout << "id not found" << endl;
       }
     }
     else{
@@ -102,6 +106,17 @@ void DELETE(int id, node* head){
 	node* placeHolder = head->getNext()->getNext();
 	head->getNext()->~node();
 	head->setNext(placeHolder);
+      }
+    }
+    else if(head->getStudent()->id == id){ //if it is the head node
+      cout << "would you like to delete " << head->getStudent()->name << "?" << endl;
+      cin >> input;
+      if(strcmp(input, "yes")==0){
+        cout << "student deleted." << endl;
+        delete head->getStudent();
+	node* temp = head->getNext();
+	head->setStudent(temp->getStudent());
+	head->setNext(temp->getNext());
       }
     }
     else{
