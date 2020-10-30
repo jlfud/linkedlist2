@@ -2,6 +2,7 @@
 #include <cstring>
 #include "student.h"
 #include "node.h"
+#include <iomanip>
 
 using namespace std;
 void ADD(node* head, student* student); //make new studnet within add function
@@ -22,7 +23,7 @@ int main(){
     }
     else if(strcmp(input, "add")==0){
       int id;
-      int gpa;
+      float gpa;
       char name[80];
       cout << "id: "<< endl;
       cin >> id;
@@ -42,7 +43,7 @@ int main(){
       return 0;
     }
     else if(strcmp(input, "average")==0){
-      cout << AVERAGE(head, 0, 0) << endl;
+      cout << fixed << setprecision(2) << AVERAGE(head, 0, 0) << endl;
     }
     else{
       cout << "invalid input! Try again!" << endl;
@@ -71,7 +72,7 @@ void ADD(node* head, student* student){ //head represents current node
 void PRINT(node* head){
   if(head != NULL){
     if(head->getStudent() != NULL){
-      cout << head->getStudent()->id << " " << head->getStudent()->name << " " << head->getStudent()->gpa << endl;
+      cout << head->getStudent()->id << " " << head->getStudent()->name << " " << fixed << setprecision(2) << head->getStudent()->gpa << endl;
       PRINT(head->getNext());
     }
   }
