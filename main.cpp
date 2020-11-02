@@ -11,7 +11,8 @@ void DELETE(int id, node* head);
 float AVERAGE(node* head, float total, int count); 
 
 int main(){
-  node* head = new node(NULL, NULL);
+  node* head = new node(NULL);
+  head->setNext(NULL); 
   char input[50];
   int id; 
   cout << "student list (again). Commands: print, add, delete, quit, average" << endl;
@@ -55,12 +56,14 @@ void ADD(node* head, student* student){ //head represents current node
     head->setStudent(student);
   }
   else if(head->getStudent()->id >= student->id){
-    node* placeholder = new node(head->getStudent(), head->getNext());
+    node* placeholder = new node(head->getStudent());
+    placeholder->setNext(head->getNext());
     head->setNext(placeholder);
     head->setStudent(student);
   }
   else if(head->getNext() == NULL){
-    node* placeholder = new node(student, NULL);
+    node* placeholder = new node(student);
+    placeholder->setNext(NULL);
     head->setNext(placeholder);
 
   }
@@ -138,4 +141,3 @@ float AVERAGE(node* head, float total, int count){
     return (total/count); 
   }
 }
-
